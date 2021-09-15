@@ -9,11 +9,6 @@ export default class Simon extends LightningElement {
     gameIsActive = false;
 
     connectedCallback() {
-        for (let i = 0; i <10; i++) {
-            let newNum = Math.ceil(Math.random * 4);
-            this.gameArray.push(newNum);
-        }
-
         this.startGame();
     }
 
@@ -38,6 +33,14 @@ export default class Simon extends LightningElement {
             //i will increment here and move on to the next round if checkArrays is correct
         }
         */
+
+        this.userArray = [];
+        this.gameArray = [];
+
+        for (let i = 0; i <10; i++) {
+            let newNum = Math.ceil(Math.random * 4);
+            this.gameArray.push(newNum);
+        }
 
         this.gameIsActive = true;
     }
@@ -89,8 +92,6 @@ export default class Simon extends LightningElement {
             if (this.userArray.length == 10 && this.missedInputs == false) {
                 alert("You won!");
                 this.gameIsActive = false;
-                this.userArray = [];
-                this.gameArray = [];
                 //This will check to see if the user has made 10 successful inputs. If they did, they won!
             } 
         }
