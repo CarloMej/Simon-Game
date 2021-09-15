@@ -47,31 +47,43 @@ export default class Simon extends LightningElement {
 
   
     addGreen = function() {
-        if (gameIsActive) {
+        if (this.gameIsActive) {
             this.userArray.push(1);
+            console.log("Green Clicked!");
             this.checkArrays();
         }
     }
 
     addRed = function() {
-        if (gameIsActive) {
+        if (this.gameIsActive) {
             this.userArray.push(2);
+            console.log("Red Clicked!");
             this.checkArrays();
         }
     }
 
     addBlue = function() {
-        if (gameIsActive) {
+        if (this.gameIsActive) {
             this.userArray.push(3);
+            console.log("Blue Clicked!");
             this.checkArrays();
         }
     }
 
     addYellow = function() {
-        if (gameIsActive) {
+        if (this.gameIsActive) {
             this.userArray.push(4);
+            console.log("Yellow Clicked!");
             this.checkArrays();
         }
+    }
+
+    onHover = function(event) {
+        event.target.style = "border-color: white";
+    }
+
+    offHover = function(event) {
+        event.target.style = "border-color: black";
     }
 
 
