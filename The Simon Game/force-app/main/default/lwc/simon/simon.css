@@ -1,0 +1,27 @@
+.top-left-green-button {
+    width: 300px;
+    height: 300px;
+    border-radius: 300px 0px 0px 0px;
+    background-color: green;
+  }
+
+  .top-right-red-button {
+    width: 300px;
+    height: 300px;
+    border-radius: 0px 300px 0px 0px;
+    background-color: red;
+  }
+
+  .bottom-right-blue-button {
+    width: 300px;
+    height: 300px;
+    border-radius: 0px 0px 300px 0px;
+    background-color: blue;
+  }
+
+  .bottom-left-yellow-button {
+    width: 300px;
+    height: 300px;
+    border-radius: 0px 0px 0px 300px;
+    background-color: yellow;
+  }
