@@ -1,4 +1,8 @@
 import { LightningElement, api } from 'lwc';
+import greenSound from '@salesforce/resourceUrl/GreenSound'; //gets the static resource
+import blueSound from '@salesforce/resourceUrl/BlueSound';
+import yellowSound from '@salesforce/resourceUrl/YellowSound';
+import redSound from '@salesforce/resourceUrl/RedSound';
 
 export default class Simon extends LightningElement {
 
