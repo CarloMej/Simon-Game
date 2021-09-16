@@ -24,7 +24,6 @@ export default class Simon extends LightningElement {
         }
         console.log("Green=1, Red=2, Blue=3, Yellow=4");
         console.log(this.gameArray);
-        this.startGame();
     }
 
     renderedCallback() {
@@ -32,6 +31,7 @@ export default class Simon extends LightningElement {
         this.redId = this.template.querySelector(".top-right-red-button");
         this.blueId = this.template.querySelector(".bottom-right-blue-button");
         this.yellowId = this.template.querySelector(".bottom-left-yellow-button");
+        this.startGame();
     }
 
     startGame = function(){
@@ -114,8 +114,10 @@ export default class Simon extends LightningElement {
     }
 
     flashColor = function(button) {
-        //console.log(button);
-        //button.style = "background-color: white"
+        console.log(button);
+        // This makes the buttons turn white and stay that way until a hover or click.
+        // A good first start for Id communication, but some flash intervals will need to be set somehow.
+        button.style = "background-color: white"
     }
 
     onHover = function(event) {
@@ -153,6 +155,7 @@ export default class Simon extends LightningElement {
                 this.missedInputs=false;
             }
         }
+
         if (this.missedInputs == false && this.userArray.length-1 == this.roundNumber) {
             this.roundNumber++;
             console.log("The Round Number is " + this.roundNumber);
