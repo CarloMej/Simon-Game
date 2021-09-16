@@ -1,4 +1,19 @@
 <template>
     <!--example for sound-->
     <button onclick={sound} id="blue" style="background-color:blue;">Blue</button>
+    
+    <div class="button-grid">
+        <div id="green" class="top-left-green-button" onmouseenter={onHover} onmouseout={offHover} onclick={addGreen}>
+
+        </div>
+        <div id="red" class="top-right-red-button" onmouseenter={onHover} onmouseout={offHover} onclick={addRed}>
+    
+        </div>
+        <div id="blue" class="bottom-right-blue-button" onmouseenter={onHover} onmouseout={offHover} onclick={addBlue}>
+    
+        </div>
+        <div id="yellow" class="bottom-left-yellow-button" onmouseenter={onHover} onmouseout={offHover} onclick={addYellow}>
+    
+        </div>
+    </div>
 </template>
