@@ -1,7 +1,4 @@
 <template>
-    <!--example for sound-->
-    <button onclick={sound} id="blu" style="background-color:blue;">Blue</button>
-    
     <div class="button-grid">
         <div id="green" class="top-left-green-button" onmouseenter={onHover} onmouseout={offHover} onclick={addGreen} onmousedown={decreaseOpacity} onmouseup={increaseOpacity}>
 
@@ -16,4 +13,5 @@
     
         </div>
     </div>
+    <lightning-button id="play" label="Play!" onclick={startGame}></lightning-button>
 </template>

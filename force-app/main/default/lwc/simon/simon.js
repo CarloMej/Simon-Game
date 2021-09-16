@@ -1,8 +1,8 @@
 import { LightningElement, api } from 'lwc';
-// import greenSound from '@salesforce/resourceUrl/GreenSound'; //gets the static resource
-// import blueSound from '@salesforce/resourceUrl/BlueSound';
-// import yellowSound from '@salesforce/resourceUrl/YellowSound';
-// import redSound from '@salesforce/resourceUrl/RedSound';
+import greenSound from '@salesforce/resourceUrl/GreenSound'; //gets the static resource
+import blueSound from '@salesforce/resourceUrl/BlueSound';
+import yellowSound from '@salesforce/resourceUrl/YellowSound';
+import redSound from '@salesforce/resourceUrl/RedSound';
 
 export default class Simon extends LightningElement {
 
@@ -11,6 +11,12 @@ export default class Simon extends LightningElement {
     @api missedInputs = false;
     @api roundNumber = 0;
     gameIsActive = false;
+    playable = false;
+
+    playBlueSound = new Audio(blueSound);
+    playGreenSound = new Audio(greenSound);
+    playYellowSound = new Audio(yellowSound);
+    playRedSound = new Audio(redSound);
 
     greenId;
     redId;
@@ -31,7 +37,7 @@ export default class Simon extends LightningElement {
         this.redId = this.template.querySelector(".top-right-red-button");
         this.blueId = this.template.querySelector(".bottom-right-blue-button");
         this.yellowId = this.template.querySelector(".bottom-left-yellow-button");
-        this.startGame();
+        this.playable = true;
     }
 
     async startGame(){
@@ -59,6 +65,7 @@ export default class Simon extends LightningElement {
             if (this.gameArray[i]==1) {
                 console.log("Green Button")
                 this.flashColor(this.greenId);
+                this.playGreenSound.play();
                 await this.sleep(500);
                 this.reverseFlash(this.greenId);
                 await this.sleep(500);
@@ -66,6 +73,7 @@ export default class Simon extends LightningElement {
             } else if (this.gameArray[i]==2) {
                 console.log("Red Button")
                 this.flashColor(this.redId);
+                this.playRedSound.play();
                 await this.sleep(500);
                 this.reverseFlash(this.redId);
                 await this.sleep(500);
@@ -73,6 +81,7 @@ export default class Simon extends LightningElement {
             } else if (this.gameArray[i]==3) {
                 console.log("Blue Button")
                 this.flashColor(this.blueId);
+                this.playBlueSound.play();
                 await this.sleep(500);
                 this.reverseFlash(this.blueId);
                 await this.sleep(500);
@@ -80,6 +89,7 @@ export default class Simon extends LightningElement {
             } else if (this.gameArray[i]==4) {
                 console.log("Yellow Button")
                 this.flashColor(this.yellowId);
+                this.playYellowSound.play();
                 await this.sleep(500);
                 this.reverseFlash(this.yellowId);
                 await this.sleep(500);
@@ -180,7 +190,7 @@ export default class Simon extends LightningElement {
         event.target.style = "opacity: 1; border-color: white;";
     }
 
-    checkArrays = function() {
+    async checkArrays() {
         for (let i = 0; i < this.userArray.length; i++) {
             if (this.userArray[i] !== this.gameArray[i]) {
                 //sets missedInputs to true, and when control goes back to caller function startGame() loop should break
@@ -205,6 +215,7 @@ export default class Simon extends LightningElement {
             console.log("The Round Number is " + this.roundNumber);
             console.log(this.userArray);
             this.userArray = [];
+            await this.sleep(900);
             this.startGame();
         }
 
