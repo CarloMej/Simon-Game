@@ -57,12 +57,16 @@ export default class Simon extends LightningElement {
         */
         for (let i=0; i<=this.roundNumber; i++) {
             if (this.gameArray[i]==1) {
+                console.log("Green Button")
                 this.flashColor(this.greenId)
             } else if (this.gameArray[i]==2) {
+                console.log("Red Button")
                 this.flashColor(this.redId)
             } else if (this.gameArray[i]==3) {
+                console.log("Blue Button")
                 this.flashColor(this.blueId)
             } else if (this.gameArray[i]==4) {
+                console.log("Yellow Button")
                 this.flashColor(this.yellowId)
             }
         }
@@ -110,12 +114,16 @@ export default class Simon extends LightningElement {
     }
 
     flashColor = function(button) {
-        console.log(button);
-        button.style = "color: white"
+        //console.log(button);
+        //button.style = "background-color: white"
     }
 
     onHover = function(event) {
         event.target.style = "border-color: white";
+    }
+
+    offHover = function(event) {
+        event.target.style = "border-color: black";
     }
 
     decreaseOpacity = function(event) {
