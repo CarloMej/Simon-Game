@@ -1,10 +1,16 @@
 import { LightningElement, api } from 'lwc';
+import greenSound from '@salesforce/resourceUrl/GreenSound'; //gets the static resource
+import blueSound from '@salesforce/resourceUrl/BlueSound';
+import yellowSound from '@salesforce/resourceUrl/YellowSound';
+import redSound from '@salesforce/resourceUrl/RedSound';
 
 export default class Simon extends LightningElement {
 
     @api gameArray = [];
     @api userArray = [];
     @api missedInputs = false;
+    @api roundNumber = 0;
+    gameIsActive = false;
 
     greenId;
     redId;
@@ -12,13 +18,6 @@ export default class Simon extends LightningElement {
     yellowId;
 
     connectedCallback() {
-<<<<<<< Updated upstream
-        for (let i = 0; i <=10; i++) {
-            let newNum = Math.ceil(Math.random * 4);
-            this.gameArray.push(newNum);
-        }
-=======
-
         for (let i = 0; i <10; i++) {
             let newNum = Math.floor(Math.random() * 4) + 1;
             this.gameArray.push(newNum);
@@ -78,31 +77,38 @@ export default class Simon extends LightningElement {
             console.log("Green Clicked!");
             this.checkArrays();
         }
->>>>>>> Stashed changes
     }
 
-    add1 = function() {
-        this.userArray.push(1);
-        checkArrays();
+    addRed = function() {
+        if (this.gameIsActive) {
+            this.userArray.push(2);
+            console.log("Red Clicked!");
+            this.checkArrays();
+        }
     }
 
-    add2 = function() {
-        this.userArray.push(2);
-        checkArrays();
+    addBlue = function() {
+        if (this.gameIsActive) {
+            this.userArray.push(3);
+            console.log("Blue Clicked!");
+            this.checkArrays();
+        }
     }
 
-    add3 = function() {
-        this.userArray.push(3);
-        checkArrays();
+    addYellow = function() {
+        if (this.gameIsActive) {
+            this.userArray.push(4);
+            console.log("Yellow Clicked!");
+            this.checkArrays();
+        }
     }
 
-<<<<<<< Updated upstream
+
     add4 = function() {
         this.userArray.push(4);
         checkArrays();
     }
 
-=======
     flashColor = function(button) {
         console.log(button);
         button.style = "color: white"
@@ -110,10 +116,6 @@ export default class Simon extends LightningElement {
 
     onHover = function(event) {
         event.target.style = "border-color: white";
-    }
-
-    offHover = function(event) {
-        event.target.style = "border-color: black";
     }
 
     decreaseOpacity = function(event) {
@@ -124,34 +126,31 @@ export default class Simon extends LightningElement {
         event.target.style = "opacity: 1";
     }
 
-
->>>>>>> Stashed changes
     checkArrays = function() {
-        for (let i = 0; i <= this.userArray.length; i++) {
+        for (let i = 0; i < this.userArray.length; i++) {
             if (this.userArray[i] !== this.gameArray[i]) {
+                //sets missedInputs to true, and when control goes back to caller function startGame() loop should break
                 this.missedInputs = true;
-                alert("Wrong input. Loser!");
+                alert("Wrong input. Better luck next time!");
+                this.gameIsActive = false;
                 //Obviously we want to include more logic to denote that the user has lost
             }
-<<<<<<< Updated upstream
             if (this.userArray.length == 10 && this.missedInputs == false) {
                 alert("You won!");
+                this.gameIsActive = false;
                 //This will check to see if the user has made 10 successful inputs. If they did, they won!
             } 
-=======
             if(this.userArray[i]==this.gameArray[i]){
                 //continue to next round
                 this.missedInputs=false;
             }
         }
-
         if (this.missedInputs == false && this.userArray.length-1 == this.roundNumber) {
             this.roundNumber++;
             console.log("The Round Number is " + this.roundNumber);
             console.log(this.userArray);
             this.userArray = [];
             this.startGame();
->>>>>>> Stashed changes
         }
 
         if (this.userArray.length == 10 && this.missedInputs == false) {
@@ -160,6 +159,4 @@ export default class Simon extends LightningElement {
             //This will check to see if the user has made 10 successful inputs. If they did, they won!
         } 
     }
- 
-
 }
