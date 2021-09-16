@@ -12,8 +12,26 @@ export default class Simon extends LightningElement {
     @api roundNumber = 0;
     gameIsActive = false;
 
+    greenId;
+    redId;
+    blueId;
+    yellowId;
+
     connectedCallback() {
+        for (let i = 0; i <10; i++) {
+            let newNum = Math.floor(Math.random() * 4) + 1;
+            this.gameArray.push(newNum);
+        }
+        console.log("Green=1, Red=2, Blue=3, Yellow=4");
+        console.log(this.gameArray);
         this.startGame();
+    }
+
+    renderedCallback() {
+        this.greenId = this.template.querySelector(".top-left-green-button");
+        this.redId = this.template.querySelector(".top-right-red-button");
+        this.blueId = this.template.querySelector(".bottom-right-blue-button");
+        this.yellowId = this.template.querySelector(".bottom-left-yellow-button");
     }
 
     startGame = function(){
@@ -37,19 +55,26 @@ export default class Simon extends LightningElement {
             //i will increment here and move on to the next round if checkArrays is correct
         }
         */
-
-        this.userArray = [];
-        this.gameArray = [];
-
-        for (let i = 0; i <10; i++) {
-            let newNum = Math.ceil(Math.random * 4);
-            this.gameArray.push(newNum);
+        for (let i=0; i<=this.roundNumber; i++) {
+            if (this.gameArray[i]==1) {
+                console.log("Green Button")
+                this.flashColor(this.greenId)
+            } else if (this.gameArray[i]==2) {
+                console.log("Red Button")
+                this.flashColor(this.redId)
+            } else if (this.gameArray[i]==3) {
+                console.log("Blue Button")
+                this.flashColor(this.blueId)
+            } else if (this.gameArray[i]==4) {
+                console.log("Yellow Button")
+                this.flashColor(this.yellowId)
+            }
         }
 
+        
         this.gameIsActive = true;
     }
 
-  
     addGreen = function() {
         if (this.gameIsActive) {
             this.userArray.push(1);
@@ -82,6 +107,17 @@ export default class Simon extends LightningElement {
         }
     }
 
+
+    add4 = function() {
+        this.userArray.push(4);
+        checkArrays();
+    }
+
+    flashColor = function(button) {
+        //console.log(button);
+        //button.style = "background-color: white"
+    }
+
     onHover = function(event) {
         event.target.style = "border-color: white";
     }
@@ -90,6 +126,13 @@ export default class Simon extends LightningElement {
         event.target.style = "border-color: black";
     }
 
+    decreaseOpacity = function(event) {
+        event.target.style = "opacity: 0.5";
+    }
+
+    increaseOpacity = function(event) {
+        event.target.style = "opacity: 1";
+    }
 
     checkArrays = function() {
         for (let i = 0; i < this.userArray.length; i++) {
@@ -100,16 +143,28 @@ export default class Simon extends LightningElement {
                 this.gameIsActive = false;
                 //Obviously we want to include more logic to denote that the user has lost
             }
-            else if(this.userArray[i]==this.gameArray[i]){
-                //continue to next round
-                this.missedInputs=false;
-            }
-
             if (this.userArray.length == 10 && this.missedInputs == false) {
                 alert("You won!");
                 this.gameIsActive = false;
                 //This will check to see if the user has made 10 successful inputs. If they did, they won!
             } 
+            if(this.userArray[i]==this.gameArray[i]){
+                //continue to next round
+                this.missedInputs=false;
+            }
         }
+        if (this.missedInputs == false && this.userArray.length-1 == this.roundNumber) {
+            this.roundNumber++;
+            console.log("The Round Number is " + this.roundNumber);
+            console.log(this.userArray);
+            this.userArray = [];
+            this.startGame();
+        }
+
+        if (this.userArray.length == 10 && this.missedInputs == false) {
+            alert("You won!");
+            this.gameIsActive = false;
+            //This will check to see if the user has made 10 successful inputs. If they did, they won!
+        } 
     }
 }
