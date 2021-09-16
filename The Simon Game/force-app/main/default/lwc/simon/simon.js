@@ -127,11 +127,11 @@ export default class Simon extends LightningElement {
     }
 
     decreaseOpacity = function(event) {
-        event.target.style = "opacity: 0.5";
+        event.target.style = "opacity: 0.5; border-color: black;";
     }
 
     increaseOpacity = function(event) {
-        event.target.style = "opacity: 1";
+        event.target.style = "opacity: 1; border-color: white;";
     }
 
     checkArrays = function() {
