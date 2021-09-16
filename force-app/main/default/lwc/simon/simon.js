@@ -58,23 +58,31 @@ export default class Simon extends LightningElement {
         for (let i=0; i<=this.roundNumber; i++) {
             if (this.gameArray[i]==1) {
                 console.log("Green Button")
-                await this.sleep(2000);
-                this.flashColor(this.greenId)
+                this.flashColor(this.greenId);
+                await this.sleep(500);
+                this.reverseFlash(this.greenId);
+                await this.sleep(500);
                 
             } else if (this.gameArray[i]==2) {
                 console.log("Red Button")
-               await this.sleep(2000);
-                this.flashColor(this.redId)
+                this.flashColor(this.redId);
+                await this.sleep(500);
+                this.reverseFlash(this.redId);
+                await this.sleep(500);
                 
             } else if (this.gameArray[i]==3) {
                 console.log("Blue Button")
-               await this.sleep(2000);
-                this.flashColor(this.blueId)
+                this.flashColor(this.blueId);
+                await this.sleep(500);
+                this.reverseFlash(this.blueId);
+                await this.sleep(500);
                 
             } else if (this.gameArray[i]==4) {
                 console.log("Yellow Button")
-               await this.sleep(2000);
-                this.flashColor(this.yellowId)
+                this.flashColor(this.yellowId);
+                await this.sleep(500);
+                this.reverseFlash(this.yellowId);
+                await this.sleep(500);
                
             }
         }
@@ -132,6 +140,19 @@ export default class Simon extends LightningElement {
        
         button.style = "background-color: white"
         
+      }
+
+      reverseFlash(button) {
+          console.log(button);
+          if (button == this.greenId) {
+            button.style = "background-color: green";
+          } else if (button == this.redId) {
+            button.style = "background-color: red"
+        } else if (button == this.blueId) {
+            button.style = "background-color: blue"
+        } else {
+            button.style = "background-color: yellow"
+        }
       }
       
 
