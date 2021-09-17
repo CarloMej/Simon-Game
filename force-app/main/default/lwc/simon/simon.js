@@ -109,6 +109,7 @@ export default class Simon extends LightningElement {
     addGreen = function() {
         if (this.gameIsActive) {
             this.userArray.push(1);
+            this.playGreenSound.play();
             console.log("Green Clicked!");
             this.checkArrays();
         }
@@ -117,6 +118,7 @@ export default class Simon extends LightningElement {
     addRed = function() {
         if (this.gameIsActive) {
             this.userArray.push(2);
+            this.playRedSound.play();
             console.log("Red Clicked!");
             this.checkArrays();
         }
@@ -125,6 +127,7 @@ export default class Simon extends LightningElement {
     addBlue = function() {
         if (this.gameIsActive) {
             this.userArray.push(3);
+            this.playBlueSound.play();
             console.log("Blue Clicked!");
             this.checkArrays();
         }
@@ -133,6 +136,7 @@ export default class Simon extends LightningElement {
     addYellow = function() {
         if (this.gameIsActive) {
             this.userArray.push(4);
+            this.playYellowSound.play();
             console.log("Yellow Clicked!");
             this.checkArrays();
         }
