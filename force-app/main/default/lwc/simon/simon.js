@@ -3,6 +3,9 @@ import greenSound from '@salesforce/resourceUrl/GreenSound'; //gets the static r
 import blueSound from '@salesforce/resourceUrl/BlueSound';
 import yellowSound from '@salesforce/resourceUrl/YellowSound';
 import redSound from '@salesforce/resourceUrl/RedSound';
+import winSound from '@salesforce/resourceUrl/Winner';
+import failSound from '@salesforce/resourceUrl/Failed';
+
 
 export default class Simon extends LightningElement {
 
@@ -17,6 +20,8 @@ export default class Simon extends LightningElement {
     playGreenSound = new Audio(greenSound);
     playYellowSound = new Audio(yellowSound);
     playRedSound = new Audio(redSound);
+    playWinSound = new Audio(winSound);
+    playFailSound = new Audio(failSound);
 
     greenId;
     redId;
@@ -195,11 +200,15 @@ export default class Simon extends LightningElement {
             if (this.userArray[i] !== this.gameArray[i]) {
                 //sets missedInputs to true, and when control goes back to caller function startGame() loop should break
                 this.missedInputs = true;
+                this.playFailSound.play();
+                await this.sleep(500);
                 alert("Wrong input. Better luck next time!");
                 this.gameIsActive = false;
                 //Obviously we want to include more logic to denote that the user has lost
             }
             if (this.userArray.length == 10 && this.missedInputs == false) {
+                this.playWinSound.play();
+                await this.sleep(500);
                 alert("You won!");
                 this.gameIsActive = false;
                 //This will check to see if the user has made 10 successful inputs. If they did, they won!
