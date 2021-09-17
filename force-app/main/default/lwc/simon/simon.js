@@ -1,178 +1,151 @@
 import { LightningElement, api } from 'lwc';
-import greenSound from '@salesforce/resourceUrl/GreenSound'; //gets the static resource
+// Get the static resources for each sound file.
+import greenSound from '@salesforce/resourceUrl/GreenSound';
 import blueSound from '@salesforce/resourceUrl/BlueSound';
 import yellowSound from '@salesforce/resourceUrl/YellowSound';
 import redSound from '@salesforce/resourceUrl/RedSound';
+import winSound from '@salesforce/resourceUrl/WinSound';
+import lossSound from '@salesforce/resourceUrl/LossSound';
 
 export default class Simon extends LightningElement {
 
+    @api buttonText = "Play!";
     @api gameArray = [];
     @api userArray = [];
-    @api missedInputs = false;
-    @api roundNumber = 0;
-    gameIsActive = false;
-    playable = false;
+    @api roundNumber = 1;
+    readyForInput = false;
 
+    // Game sounds.
     playBlueSound = new Audio(blueSound);
     playGreenSound = new Audio(greenSound);
     playYellowSound = new Audio(yellowSound);
     playRedSound = new Audio(redSound);
+    playWinSound = new Audio(winSound);
+    playLossSound = new Audio(lossSound);
 
-    greenId;
-    redId;
-    blueId;
-    yellowId;
+    // References to the colored game buttons.
+    greenButton;
+    redButton;
+    blueButton;
+    yellowButton;
 
-    connectedCallback() {
-        for (let i = 0; i <10; i++) {
+    // Render callback to get the colored buttons.
+    renderedCallback() {
+        this.greenButton = this.template.querySelector(".top-left-green-button");
+        this.redButton = this.template.querySelector(".top-right-red-button");
+        this.blueButton = this.template.querySelector(".bottom-right-blue-button");
+        this.yellowButton = this.template.querySelector(".bottom-left-yellow-button");
+    }
+
+    // Starts the game and shuffles a new memory sequence.
+    startGame() {
+        this.buttonText = "Reset?";
+        this.shuffleSequence();
+        this.nextRound();
+    }
+
+    // Creates a random list of 10 integers ranging from 1-4. 
+    shuffleSequence() {
+        this.gameArray = [];
+        this.userArray = [];
+        this.roundNumber = 1;
+
+        for (let i = 0; i < 10; i++) {
             let newNum = Math.floor(Math.random() * 4) + 1;
             this.gameArray.push(newNum);
         }
-        console.log("Green=1, Red=2, Blue=3, Yellow=4");
-        console.log(this.gameArray);
     }
 
-    renderedCallback() {
-        this.greenId = this.template.querySelector(".top-left-green-button");
-        this.redId = this.template.querySelector(".top-right-red-button");
-        this.blueId = this.template.querySelector(".bottom-right-blue-button");
-        this.yellowId = this.template.querySelector(".bottom-left-yellow-button");
-        this.playable = true;
-    }
-
-    async startGame(){
-        //in the youtube demo the game lights up randomly, with random sounds to initialize the game
-        //some logic for that here
-
-        //start of the game
-        //i will reference the total rounds in the game
-        /*
-        for(let i =0;i<10;i++){
-            //k will reference the machine output to the user, controlled by the current round number(i)
-            for(let k=0;k<=i;k++){
-                console.log(this.gameArray[k]);
-            }
-            //we need to pause here to listen for user input for this current round, pauses for 6 seconds, then calls the checkArrays func.
-            setTimeout(this.checkArrays(),6000);
-            if(this.missedInputs==true){
-                break;
-            }
-
-            //i will increment here and move on to the next round if checkArrays is correct
-        }
-        */
-        for (let i=0; i<=this.roundNumber; i++) {
+    // Animates a flashing sequence for the current round before opening the game for user input.
+    async nextRound(){
+        for (let i = 0; i < this.roundNumber; i++) {
             if (this.gameArray[i]==1) {
-                console.log("Green Button")
-                this.flashColor(this.greenId);
+                this.flashColor(this.greenButton);
                 this.playGreenSound.play();
                 await this.sleep(500);
-                this.reverseFlash(this.greenId);
+                this.reverseFlash(this.greenButton);
                 await this.sleep(500);
                 
             } else if (this.gameArray[i]==2) {
-                console.log("Red Button")
-                this.flashColor(this.redId);
+                this.flashColor(this.redButton);
                 this.playRedSound.play();
                 await this.sleep(500);
-                this.reverseFlash(this.redId);
+                this.reverseFlash(this.redButton);
                 await this.sleep(500);
                 
             } else if (this.gameArray[i]==3) {
-                console.log("Blue Button")
-                this.flashColor(this.blueId);
+                this.flashColor(this.blueButton);
                 this.playBlueSound.play();
                 await this.sleep(500);
-                this.reverseFlash(this.blueId);
+                this.reverseFlash(this.blueButton);
                 await this.sleep(500);
                 
-            } else if (this.gameArray[i]==4) {
-                console.log("Yellow Button")
-                this.flashColor(this.yellowId);
+            } else {
+                this.flashColor(this.yellowButton);
                 this.playYellowSound.play();
                 await this.sleep(500);
-                this.reverseFlash(this.yellowId);
+                this.reverseFlash(this.yellowButton);
                 await this.sleep(500);
-               
             }
         }
 
-        
-        this.gameIsActive = true;
+        this.readyForInput = true;
     }
 
+    // Handler for when the user selects green.
     addGreen = function() {
-        if (this.gameIsActive) {
+        if (this.readyForInput) {
             this.userArray.push(1);
-            console.log("Green Clicked!");
             this.checkArrays();
         }
     }
 
+    // Handler for when the user selects red.
     addRed = function() {
-        if (this.gameIsActive) {
+        if (this.readyForInput) {
             this.userArray.push(2);
-            console.log("Red Clicked!");
             this.checkArrays();
         }
     }
 
+    // Handler for when the user selects blue.
     addBlue = function() {
-        if (this.gameIsActive) {
+        if (this.readyForInput) {
             this.userArray.push(3);
-            console.log("Blue Clicked!");
             this.checkArrays();
         }
     }
 
+    // Handler for when the user selects yellow.
     addYellow = function() {
-        if (this.gameIsActive) {
+        if (this.readyForInput) {
             this.userArray.push(4);
-            console.log("Yellow Clicked!");
             this.checkArrays();
         }
     }
 
-
-    add4 = function() {
-        this.userArray.push(4);
-        checkArrays();
-    }
-
+    // Sleep function used for game pauses.
     sleep=function(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
-      }
-      
-      async flashColor(button) {
-        console.log(button);
-        // This makes the buttons turn white and stay that way until a hover or click.
-        // A good first start for Id communication, but some flash intervals will need to be set somehow.
-       
-        button.style = "background-color: white"
-        
-      }
+    }
+    
+    // Flashes the input button's color to white.
+    async flashColor(button) {
+        button.style = "background-color: white";
+    }
 
-      reverseFlash(button) {
-          console.log(button);
-          if (button == this.greenId) {
+    // Resets the input button's color.
+    reverseFlash(button) {
+        if (button == this.greenButton) {
             button.style = "background-color: green";
-          } else if (button == this.redId) {
-            button.style = "background-color: red"
-        } else if (button == this.blueId) {
-            button.style = "background-color: blue"
+        } else if (button == this.redButton) {
+            button.style = "background-color: red";
+        } else if (button == this.blueButton) {
+            button.style = "background-color: blue";
         } else {
-            button.style = "background-color: yellow"
+            button.style = "background-color: yellow";
         }
-      }
-      
-
-    // flashColor = function(button) {
-    //     console.log(button);
-    //     // This makes the buttons turn white and stay that way until a hover or click.
-    //     // A good first start for Id communication, but some flash intervals will need to be set somehow.
-    //     this.sleep(5000);
-    //     button.style = "background-color: white"
-    // }
+    }
 
     onHover = function(event) {
         event.target.style = "border-color: white";
@@ -183,46 +156,44 @@ export default class Simon extends LightningElement {
     }
 
     decreaseOpacity = function(event) {
-        event.target.style = "opacity: 0.5; border-color: black;";
+        if (this.readyForInput) {
+            event.target.style = "opacity: 0.5; border-color: black;";
+        }
     }
 
     increaseOpacity = function(event) {
-        event.target.style = "opacity: 1; border-color: white;";
+        if (this.readyForInput) {
+            event.target.style = "opacity: 1; border-color: white;";
+        }
     }
 
+    // Checks the user's input with the game's in order to determine win/loss conditions and round startups.
     async checkArrays() {
+        // Check for incorrect inputs from the user.
         for (let i = 0; i < this.userArray.length; i++) {
-            if (this.userArray[i] !== this.gameArray[i]) {
-                //sets missedInputs to true, and when control goes back to caller function startGame() loop should break
-                this.missedInputs = true;
-                alert("Wrong input. Better luck next time!");
-                this.gameIsActive = false;
-                //Obviously we want to include more logic to denote that the user has lost
-            }
-            if (this.userArray.length == 10 && this.missedInputs == false) {
-                alert("You won!");
-                this.gameIsActive = false;
-                //This will check to see if the user has made 10 successful inputs. If they did, they won!
-            } 
-            if(this.userArray[i]==this.gameArray[i]){
-                //continue to next round
-                this.missedInputs=false;
+            if (this.userArray[i] != this.gameArray[i]) {
+                this.playLossSound.play();
+                console.log(this.userArray);
+                console.log(this.gameArray);
+                this.readyForInput = false;
+                this.buttonText = "Play Again?";
+                return;
             }
         }
 
-        if (this.missedInputs == false && this.userArray.length-1 == this.roundNumber) {
+        // If no wrong inputs were detected, determine whether to move onto the next round or win the game.
+        if (this.userArray.length == 10) {
+            this.playWinSound.play();
+            this.readyForInput = false;
+            this.buttonText = "Play Again?";
+            return;
+        }
+        else if (this.userArray.length == this.roundNumber) {
             this.roundNumber++;
-            console.log("The Round Number is " + this.roundNumber);
-            console.log(this.userArray);
             this.userArray = [];
+            this.readyForInput = false;
             await this.sleep(900);
-            this.startGame();
-        }
-
-        if (this.userArray.length == 10 && this.missedInputs == false) {
-            alert("You won!");
-            this.gameIsActive = false;
-            //This will check to see if the user has made 10 successful inputs. If they did, they won!
+            this.nextRound();
         } 
     }
 }

@@ -1,17 +1,9 @@
 <template>
     <div class="button-grid">
-        <div id="green" class="top-left-green-button" onmouseenter={onHover} onmouseout={offHover} onclick={addGreen} onmousedown={decreaseOpacity} onmouseup={increaseOpacity}>
-
-        </div>
-        <div id="red" class="top-right-red-button" onmouseenter={onHover} onmouseout={offHover} onclick={addRed} onmousedown={decreaseOpacity} onmouseup={increaseOpacity}>
-    
-        </div>
-        <div id="blue" class="bottom-right-blue-button" onmouseenter={onHover} onmouseout={offHover} onclick={addBlue} onmousedown={decreaseOpacity} onmouseup={increaseOpacity}>
-    
-        </div>
-        <div id="yellow" class="bottom-left-yellow-button" onmouseenter={onHover} onmouseout={offHover} onclick={addYellow} onmousedown={decreaseOpacity} onmouseup={increaseOpacity}>
-    
-        </div>
+        <div id="green" class="top-left-green-button" onmouseenter={onHover} onmouseout={offHover} onclick={addGreen} onmousedown={decreaseOpacity} onmouseup={increaseOpacity}></div>
+        <div id="red" class="top-right-red-button" onmouseenter={onHover} onmouseout={offHover} onclick={addRed} onmousedown={decreaseOpacity} onmouseup={increaseOpacity}></div>
+        <div id="blue" class="bottom-right-blue-button" onmouseenter={onHover} onmouseout={offHover} onclick={addBlue} onmousedown={decreaseOpacity} onmouseup={increaseOpacity}></div>
+        <div id="yellow" class="bottom-left-yellow-button" onmouseenter={onHover} onmouseout={offHover} onclick={addYellow} onmousedown={decreaseOpacity} onmouseup={increaseOpacity}></div>
+        <lightning-button class="play-button" label={buttonText} onclick={startGame}></lightning-button>
     </div>
-    <lightning-button id="play" label="Play!" onclick={startGame}></lightning-button>
 </template>

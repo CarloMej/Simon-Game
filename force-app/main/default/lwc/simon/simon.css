@@ -62,3 +62,12 @@
     grid-column-start: 1;
     grid-column-end: 2;
 }
+
+.play-button {
+    text-align: center;
+
+    grid-row-start: 3;
+    grid-row-end: 4;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
