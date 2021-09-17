@@ -6,6 +6,7 @@ import yellowSound from '@salesforce/resourceUrl/YellowSound';
 import redSound from '@salesforce/resourceUrl/RedSound';
 import winSound from '@salesforce/resourceUrl/WinSound';
 import lossSound from '@salesforce/resourceUrl/LossSound';
+import clickSound from '@salesforce/resourceUrl/ClickSound';
 
 export default class Simon extends LightningElement {
 
@@ -22,6 +23,7 @@ export default class Simon extends LightningElement {
     playRedSound = new Audio(redSound);
     playWinSound = new Audio(winSound);
     playLossSound = new Audio(lossSound);
+    playClickSound = new Audio(clickSound);
 
     // References to the colored game buttons.
     greenButton;
@@ -96,6 +98,7 @@ export default class Simon extends LightningElement {
     addGreen = function() {
         if (this.readyForInput) {
             this.userArray.push(1);
+            this.playClickSound.play();
             this.checkArrays();
         }
     }
@@ -104,6 +107,7 @@ export default class Simon extends LightningElement {
     addRed = function() {
         if (this.readyForInput) {
             this.userArray.push(2);
+            this.playClickSound.play();
             this.checkArrays();
         }
     }
@@ -112,6 +116,7 @@ export default class Simon extends LightningElement {
     addBlue = function() {
         if (this.readyForInput) {
             this.userArray.push(3);
+            this.playClickSound.play();
             this.checkArrays();
         }
     }
@@ -120,6 +125,7 @@ export default class Simon extends LightningElement {
     addYellow = function() {
         if (this.readyForInput) {
             this.userArray.push(4);
+            this.playClickSound.play();
             this.checkArrays();
         }
     }
